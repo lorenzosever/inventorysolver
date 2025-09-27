@@ -5,7 +5,7 @@ Permette di definire una board e un set di shape e prova a disporle automaticame
 
 ## 🌐 Demo (GitHub Pages)
 
-1. Apri **https://lorenzosever.github.io/afkjourney-inventorysolver/**
+1. Apri **https://lorenzosever.github.io/inventorysolver/**
 2. Imposta il **Board Layout** (10×10 di default).
 3. Disegna le **Shapes** (12 shape 4×4).
 4. Clicca **Submit Shapes** per avviare il solver.
