@@ -1,4 +1,4 @@
-# AFK Journey – Inventory Solver
+# Inventory Solver
 
 Solver “inventory management” con interfaccia web e versione Python (Tkinter).  
 Permette di definire una board e un set di shape e prova a disporle automaticamente.
