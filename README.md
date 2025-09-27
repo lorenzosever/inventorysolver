@@ -1,35 +1,30 @@
-# afkjourney-inventorysolver
-Small application to solve the AFK Journey's Inventory Sort minigame
+# AFK Journey – Inventory Solver
 
-Sometimes the web version can't solve one, try the python file. (requires numpy)
+Solver “inventory management” con interfaccia web e versione Python (Tkinter).  
+Permette di definire una board e un set di shape e prova a disporle automaticamente.
 
-# Requirements
-- up to date browser
-- JavaScript enabled
+## 🌐 Demo (GitHub Pages)
 
-# Usage
-1. Open https://mitsuma.github.io/afkjourney-inventorysolver/
-2. Set your Board Layout.
-3. Set your shapes, simply click (or click and drag) the shape form in the boxes.
-Empty boxes will be ignored, shapes can be drawn whereever in the box.
-4. Hit submit and wait a little.
-5. Solution Window should pop up and show the solution.
+1. Apri **https://lorenzosever.github.io/afkjourney-inventorysolver/**
+2. Imposta il **Board Layout** (10×10 di default).
+3. Disegna le **Shapes** (12 shape 4×4).
+4. Clicca **Submit Shapes** per avviare il solver.
 
-# Screenshots
-- Board setup  
-![chrome_1xTV9mgVHN](https://github.com/Mitsuma/afkjourney-inventorysolver/assets/8568089/b8baaaff-bbec-4a21-8f33-dba01ee8d332)
+> Se il sito non si aggiorna subito dopo un commit, prova un hard refresh (Ctrl+F5 / Cmd+Shift+R).
 
+---
 
-- Shape setup
-![chrome_a0NlFFlAgK](https://github.com/Mitsuma/afkjourney-inventorysolver/assets/8568089/bbe0f4b0-4a8a-4546-802b-7323d2b3f95e)
+## 📦 Struttura
 
+- `index.html`, `styles.css`, `script.js` → **Web app** (GitHub Pages).
+- `solver.py` → **App desktop** (Tkinter) avviabile in locale.
 
-- Solution window  
-![chrome_auAjajGHSw](https://github.com/Mitsuma/afkjourney-inventorysolver/assets/8568089/18140469-e2f3-4e40-8c5e-0e2d0b1664f5)
+---
 
+## ⚙️ Board Size (Web)
 
+La dimensione della griglia è configurata in `script.js`:
 
-# Info
-Made with ChatGPT. I claim no ownership over the code.  
-Use it as is, modify it, whatever you like.  
-Only tested on Windows10.
+```js
+// --- configurazione ---
+const BOARD_SIZE = 10; // cambia qui per 6/7/12...
