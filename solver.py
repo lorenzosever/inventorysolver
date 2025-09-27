@@ -40,15 +40,16 @@ class ShapeInput:
             return np.zeros((0, 0), dtype=int)
 
 class BoardInput:
-    def __init__(self, master):
+    def __init__(self, master, size=10):  # default 10x10
         self.master = master
-        self.board = np.ones((6, 6), dtype=int)
-        self.buttons = [[None for _ in range(6)] for _ in range(6)]
+        self.size = size
+        self.board = np.ones((size, size), dtype=int)
+        self.buttons = [[None for _ in range(size)] for _ in range(size)]
         self.frame = tk.Frame(master)
-        self.frame.grid(row=0, column=0, columnspan=6)
-        tk.Label(self.frame, text="Define Board").grid(row=0, columnspan=6)
-        for i in range(6):
-            for j in range(6):
+        self.frame.grid(row=0, column=0, columnspan=size)
+        tk.Label(self.frame, text="Define Board").grid(row=0, columnspan=size)
+        for i in range(size):
+            for j in range(size):
                 btn = tk.Button(self.frame, width=2, height=1, command=lambda i=i, j=j: self.toggle_cell(i, j))
                 btn.grid(row=i+1, column=j)
                 self.buttons[i][j] = btn
@@ -105,7 +106,7 @@ def submit_board():
         board_window.destroy()
         open_shape_window(board)
     else:
-        tk.Label(board_window, text="Please define a valid board", fg='red').grid(row=7, column=0, columnspan=4)
+        tk.Label(board_window, text="Please define a valid board", fg='red').grid(row=12, column=0, columnspan=4)
 
 def main(shapes, board):
     color_map = generate_color_map(len(shapes))
@@ -196,7 +197,7 @@ if __name__ == "__main__":
     # First window to define the board
     board_window = tk.Tk()
     board_window.title("Define Board")
-    board_input = BoardInput(board_window)
+    board_input = BoardInput(board_window, size=10)  # griglia 10x10 fissa
     submit_board_button = tk.Button(board_window, text="Submit Board", command=submit_board)
-    submit_board_button.grid(row=7, column=0, columnspan=6, pady=10)
+    submit_board_button.grid(row=12, column=0, columnspan=10, pady=10)
     board_window.mainloop()
