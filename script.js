@@ -1,6 +1,12 @@
-let board = Array(7).fill().map(() => Array(7).fill(0));
-let shapes = [];
+// --- configurazione ---
+const BOARD_SIZE = 10;      // <— cambia qui se vuoi 6/7/12...
+const SHAPE_SIZE = 4;
 const shapeCount = 12;
+
+let board = Array.from({ length: BOARD_SIZE }, () =>
+  Array.from({ length: BOARD_SIZE }, () => 0)
+);
+let shapes = [];
 let isMouseDown = false;
 let isSelecting = true;
 
@@ -14,19 +20,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function createBoardGrid() {
     const boardContainer = document.getElementById('board');
-    for (let i = 0; i < 7; i++) {
-        for (let j = 0; j < 7; j++) {
+
+    // assicurati che la griglia abbia BOARD_SIZE colonne/righe
+    if (boardContainer && boardContainer.style) {
+        boardContainer.style.display = 'grid';
+        boardContainer.style.gridTemplateColumns = `repeat(${BOARD_SIZE}, 30px)`;
+        boardContainer.style.gridTemplateRows = `repeat(${BOARD_SIZE}, 30px)`;
+    }
+
+    for (let i = 0; i < BOARD_SIZE; i++) {
+        for (let j = 0; j < BOARD_SIZE; j++) {
             const cell = document.createElement('div');
             cell.classList.add('board-cell');
-            if (i > 0 && i < 6 && j > 0 && j < 6) {
+
+            // seleziona l'interno (bordo escluso) come "attivo" di default
+            if (i > 0 && i < BOARD_SIZE - 1 && j > 0 && j < BOARD_SIZE - 1) {
                 cell.classList.add('selected');
                 board[i][j] = 1;
             }
+
             cell.addEventListener('mousedown', (e) => {
                 isMouseDown = true;
                 isSelecting = !cell.classList.contains('selected');
                 toggleCell(cell, board, i, j);
-                e.preventDefault(); // Prevent default text selection behavior
+                e.preventDefault(); // evita selezione testo
             });
             cell.addEventListener('mouseover', () => {
                 if (isMouseDown) {
@@ -47,7 +64,9 @@ function createBoardGrid() {
 function createShapeGrids() {
     const shapesContainer = document.getElementById('shapes');
     for (let s = 0; s < shapeCount; s++) {
-        const shape = Array(4).fill().map(() => Array(4).fill(0));
+        const shape = Array.from({ length: SHAPE_SIZE }, () =>
+          Array.from({ length: SHAPE_SIZE }, () => 0)
+        );
         shapes.push(shape);
 
         const shapeWrapper = document.createElement('div');
@@ -55,21 +74,22 @@ function createShapeGrids() {
         
         const shapeGrid = document.createElement('div');
         shapeGrid.classList.add('grid');
-        shapeGrid.style.gridTemplateColumns = 'repeat(4, 30px)';
+        shapeGrid.style.gridTemplateColumns = `repeat(${SHAPE_SIZE}, 30px)`;
+        shapeGrid.style.gridTemplateRows = `repeat(${SHAPE_SIZE}, 30px)`;
         
         const shapeTitle = document.createElement('h5');
         shapeTitle.innerText = `Shape ${s + 1}`;
         shapeWrapper.appendChild(shapeTitle);
         
-        for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 4; j++) {
+        for (let i = 0; i < SHAPE_SIZE; i++) {
+            for (let j = 0; j < SHAPE_SIZE; j++) {
                 const cell = document.createElement('div');
                 cell.classList.add('shape-cell');
                 cell.addEventListener('mousedown', (e) => {
                     isMouseDown = true;
                     isSelecting = !cell.classList.contains('selected');
                     toggleCell(cell, shape, i, j);
-                    e.preventDefault(); // Prevent default text selection behavior
+                    e.preventDefault();
                 });
                 cell.addEventListener('mouseover', () => {
                     if (isMouseDown) {
@@ -118,10 +138,15 @@ function submitShapes() {
 
 function displayResultGrid() {
     const resultContainer = document.getElementById('result');
-    resultContainer.innerHTML = ''; // Clear previous content
+    resultContainer.innerHTML = '';
 
-    for (let i = 0; i < 7; i++) {
-        for (let j = 0; j < 7; j++) {
+    // applica anche qui la dimensione della griglia
+    resultContainer.style.display = 'grid';
+    resultContainer.style.gridTemplateColumns = `repeat(${BOARD_SIZE}, 30px)`;
+    resultContainer.style.gridTemplateRows = `repeat(${BOARD_SIZE}, 30px)`;
+
+    for (let i = 0; i < BOARD_SIZE; i++) {
+        for (let j = 0; j < BOARD_SIZE; j++) {
             const cell = document.createElement('div');
             cell.classList.add('board-cell');
             if (board[i][j] !== 0) {
@@ -137,7 +162,7 @@ function canPlaceShape(board, shape, x, y, color) {
     for (let i = 0; i < shape.length; i++) {
         for (let j = 0; j < shape[i].length; j++) {
             if (shape[i][j] === 1) {
-                if (x + i >= 7 || y + j >= 7 || board[x + i][y + j] !== 1) {
+                if (x + i >= BOARD_SIZE || y + j >= BOARD_SIZE || board[x + i][y + j] !== 1) {
                     return false;
                 }
             }
@@ -174,8 +199,8 @@ function solveInventory(board, shapes, index) {
     const shape = shapes[index];
     const color = colors[index % colors.length];
 
-    for (let i = 0; i < 7; i++) {
-        for (let j = 0; j < 7; j++) {
+    for (let i = 0; i < BOARD_SIZE; i++) {
+        for (let j = 0; j < BOARD_SIZE; j++) {
             if (canPlaceShape(board, shape, i, j, color)) {
                 placeShape(board, shape, i, j, color);
                 if (solveInventory(board, shapes, index + 1)) {
